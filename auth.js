@@ -89,18 +89,80 @@ if (loginForm) {
   });
 }
 // Quên mật khẩu
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+// OTP giả lập
+let generatedOtp = null;
+let otpTarget = null;
+
+const sendOtpBtn = document.getElementById("sendOtpBtn");
+if (sendOtpBtn) {
+  sendOtpBtn.addEventListener("click", function () {
+    const contact = document.getElementById("forgotContact").value.trim();
+    const message = document.getElementById("forgotMessage");
+    const users = getUsers();
+
+    if (!contact) {
+      message.innerText = "Vui lòng nhập email hoặc số điện thoại";
+      message.className = "text-center mt-4 font-medium text-red-500";
+      return;
+    }
+
+    const foundUser = users.find(
+      user => user.email === contact || user.phone === contact
+    );
+
+    if (!foundUser) {
+      message.innerText = "Email hoặc số điện thoại chưa được đăng ký";
+      message.className = "text-center mt-4 font-medium text-red-500";
+      return;
+    }
+
+    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpTarget = contact;
+
+    message.innerText = "Mã OTP đã gửi: " + generatedOtp + " (demo)";
+    message.className = "text-center mt-4 font-medium text-green-600";
+  });
+}
+
 const forgotPasswordForm = document.getElementById("forgotPasswordForm");
 if (forgotPasswordForm) {
   forgotPasswordForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const email = document.getElementById("forgotEmail").value.trim();
+    const contact = document.getElementById("forgotContact").value.trim();
+    const otpCode = document.getElementById("otpCode").value.trim();
     const newPassword = document.getElementById("newPassword").value.trim();
     const confirmPassword = document.getElementById("confirmPassword").value.trim();
     const message = document.getElementById("forgotMessage");
 
-    if (!email || !newPassword || !confirmPassword) {
+    if (!contact || !otpCode || !newPassword || !confirmPassword) {
       message.innerText = "Vui lòng nhập đầy đủ thông tin";
+      message.className = "text-center mt-4 font-medium text-red-500";
+      return;
+    }
+
+    if (!generatedOtp || !otpTarget) {
+      message.innerText = "Bạn chưa gửi mã OTP";
+      message.className = "text-center mt-4 font-medium text-red-500";
+      return;
+    }
+
+    if (contact !== otpTarget) {
+      message.innerText = "Thông tin nhận mã không khớp";
+      message.className = "text-center mt-4 font-medium text-red-500";
+      return;
+    }
+
+    if (otpCode !== generatedOtp) {
+      message.innerText = "Mã OTP không đúng";
       message.className = "text-center mt-4 font-medium text-red-500";
       return;
     }
@@ -118,10 +180,12 @@ if (forgotPasswordForm) {
     }
 
     const users = getUsers();
-    const userIndex = users.findIndex(user => user.email === email);
+    const userIndex = users.findIndex(
+      user => user.email === contact || user.phone === contact
+    );
 
     if (userIndex === -1) {
-      message.innerText = "Email này chưa được đăng ký";
+      message.innerText = "Không tìm thấy tài khoản";
       message.className = "text-center mt-4 font-medium text-red-500";
       return;
     }
@@ -129,7 +193,10 @@ if (forgotPasswordForm) {
     users[userIndex].password = newPassword;
     saveUsers(users);
 
-    message.innerText = "Đổi mật khẩu thành công! Đang quay lại trang đăng nhập...";
+    generatedOtp = null;
+    otpTarget = null;
+
+    message.innerText = "Đổi mật khẩu thành công! Đang quay lại đăng nhập...";
     message.className = "text-center mt-4 font-medium text-green-600";
 
     setTimeout(() => {
