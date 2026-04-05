@@ -19,16 +19,20 @@ const products = [
   }
 ];
 
+// lấy cart từ localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// lưu cart
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+// cập nhật số lượng
 function updateCartCount() {
   document.getElementById("cart-count").innerText = cart.length;
 }
 
+// thêm vào giỏ
 function addToCart(id) {
   const product = products.find(p => p.id === id);
   cart.push(product);
@@ -37,6 +41,7 @@ function addToCart(id) {
   alert("Đã thêm vào giỏ!");
 }
 
+// render sản phẩm + search
 function renderProducts() {
   const list = document.getElementById("product-list");
   const keyword = document.getElementById("search").value.toLowerCase();
@@ -53,10 +58,10 @@ function renderProducts() {
 
           <h3 class="font-bold">${p.name}</h3>
 
-          <p class="text-orange-500 font-bold">${p.price.toLocaleString()}đ</p>
+          <p class="text-red-500 font-bold">${p.price.toLocaleString()}đ</p>
 
           <button onclick="addToCart(${p.id})"
-            class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 mt-2 rounded w-full">
+            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 mt-2 rounded w-full">
             Thêm vào giỏ
           </button>
         </div>
@@ -65,6 +70,19 @@ function renderProducts() {
 
   updateCartCount();
 }
+function getTotal() {
+  return cart.reduce((sum, item) => sum + item.price, 0);
+}
+function removeItem(index) {
+  cart.splice(index, 1);
+  saveCart();
+  renderCart();
+}
+function renderTotal() {
+  document.getElementById("total").innerText =
+    "Tổng: " + getTotal().toLocaleString() + "đ";
+}
+renderTotal();
 
 // chạy
 renderProducts();
