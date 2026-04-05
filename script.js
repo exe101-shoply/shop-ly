@@ -70,6 +70,9 @@ function renderProducts() {
 
   updateCartCount();
 }
+function getTotal() {
+  return cart.reduce((sum, item) => sum + item.price, 0);
+}
 
 // chạy
 renderProducts();
