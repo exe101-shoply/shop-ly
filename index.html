@@ -5,15 +5,22 @@
   <title>Ly Xinh Shop</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="p-5">
 
-<h1 class="text-3xl font-bold mb-4">☕ Ly Xinh Shop</h1>
+<body class="bg-gray-100 p-5">
 
-<a href="cart.html" class="bg-blue-500 text-white px-3 py-1 rounded">
-  🛒 Giỏ hàng (<span id="cart-count">0</span>)
-</a>
+<h1 class="text-3xl font-bold mb-4 text-center">☕ Ly Xinh Shop</h1>
 
-<div id="product-list" class="grid grid-cols-3 gap-4 mt-4"></div>
+<div class="flex justify-between mb-4">
+  <input id="search" placeholder="🔍 Tìm ly..."
+    class="border p-2 w-1/2 rounded"
+    oninput="renderProducts()" />
+
+  <a href="#" class="bg-blue-500 text-white px-3 py-2 rounded">
+    🛒 (<span id="cart-count">0</span>)
+  </a>
+</div>
+
+<div id="product-list" class="grid grid-cols-3 gap-4"></div>
 
 <script src="script.js"></script>
 </body>
