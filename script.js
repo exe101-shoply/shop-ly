@@ -6,16 +6,16 @@ const products = [
     oldPrice: 79000,
     rating: 4.8,
     badge: "Bán chạy",
-    img: "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 2,
-    name: "Ly thủy tinh phong cách Hàn",
+    name: "Ly thủy tinh trong suốt",
     price: 70000,
     oldPrice: 99000,
     rating: 4.7,
     badge: "Mới",
-    img: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 3,
@@ -25,6 +25,33 @@ const products = [
     rating: 4.9,
     badge: "Sale 25%",
     img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 4,
+    name: "Ly cafe vintage",
+    price: 65000,
+    oldPrice: 85000,
+    rating: 4.6,
+    badge: "Hot",
+    img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 5,
+    name: "Ly gốm decor bàn làm việc",
+    price: 89000,
+    oldPrice: 119000,
+    rating: 4.8,
+    badge: "Yêu thích",
+    img: "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 6,
+    name: "Ly đôi quà tặng",
+    price: 150000,
+    oldPrice: 199000,
+    rating: 4.9,
+    badge: "Quà tặng",
+    img: "https://images.unsplash.com/photo-1481391032119-d89fee407e44?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
@@ -41,6 +68,8 @@ function updateCartCount() {
 
 function addToCart(id) {
   const product = products.find(p => p.id === id);
+  if (!product) return;
+
   cart.push(product);
   saveCart();
   updateCartCount();
@@ -51,14 +80,16 @@ function renderProducts() {
   const list = document.getElementById("product-list");
   if (!list) return;
 
-  const keyword = document.getElementById("search").value.toLowerCase();
+  const searchInput = document.getElementById("search");
+  const keyword = searchInput ? searchInput.value.toLowerCase() : "";
+
   list.innerHTML = "";
 
-  const filtered = products.filter(product =>
+  const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(keyword)
   );
 
-  filtered.forEach(product => {
+  filteredProducts.forEach(product => {
     list.innerHTML += `
       <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
         <div class="relative">
