@@ -6,22 +6,31 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 p-5">
+<body class="bg-gray-100">
 
-<h1 class="text-3xl font-bold mb-4 text-center">☕ Ly Xinh Shop</h1>
+<!-- 🔥 NAVBAR -->
+<div class="bg-orange-500 text-white p-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">🛍️ Ly Xinh Shop</h1>
 
-<div class="flex justify-between mb-4">
-  <input id="search" placeholder="🔍 Tìm ly..."
-    class="border p-2 w-1/2 rounded"
+  <input id="search" placeholder="Tìm ly..."
+    class="p-2 rounded text-black w-1/2"
     oninput="renderProducts()" />
 
-  <a href="cart.html" class="bg-blue-500 text-white px-3 py-2 rounded">
+  <a href="cart.html" class="bg-white text-orange-500 px-3 py-2 rounded">
     🛒 (<span id="cart-count">0</span>)
   </a>
 </div>
 
-<div id="product-list" class="grid grid-cols-3 gap-4"></div>
-<p id="total"></p>
+<!-- 🎯 BANNER -->
+<div class="p-5">
+  <div class="bg-white rounded-xl shadow p-5 text-center">
+    <h2 class="text-2xl font-bold mb-2">🔥 Sale 50% tất cả ly</h2>
+    <p>Trang trí bàn làm việc cực chill ☕</p>
+  </div>
+</div>
+
+<!-- 🛒 PRODUCT -->
+<div id="product-list" class="grid grid-cols-4 gap-4 p-5"></div>
 
 <script src="script.js"></script>
 </body>
